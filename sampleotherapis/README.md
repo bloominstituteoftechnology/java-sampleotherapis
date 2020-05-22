@@ -1,4 +1,4 @@
-# Java API Sample Employee Data
+# Java Sample Swagger Documentation
 
 ## Introduction
 
@@ -13,9 +13,7 @@ The table layouts are as follows:
 - Jobtitles has a Many-To-Many relationship with Employee
 - EmployeeTitles is the join table to represent the Many-To_Many relationship between Employee and JobTitles
 
-![Sample Employees Database Layout](sampleemps-db.png)
+![Image of Database Layout](sampleemps-db.png)
 
-Two different applications exist
+Below are the endpoints that are affected by data from other apis
 
-- sampleotherapis-initial - a starting application
-- sampleotherapis - show how to manage data from three different api systems
