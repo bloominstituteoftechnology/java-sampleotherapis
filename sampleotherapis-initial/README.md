@@ -1,4 +1,4 @@
-# Java Sample Swagger Documentation
+# Java Sample Accesssing Other APIs
 
 ## Introduction
 
