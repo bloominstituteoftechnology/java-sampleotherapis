@@ -3,27 +3,23 @@ package com.lambdaschool.sampleemps.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "jobtitles")
-public class JobTitle
-        extends Auditable
+public class JobTitle extends Auditable
 {
     @Id // The primary key
     @GeneratedValue(strategy = GenerationType.AUTO) // We will let the database decide how to generate it
     private long jobtitleid; // long so we can have many rows
 
-    @Column(nullable = false,
-            unique = true)
     private String title;
 
     /*
@@ -44,7 +40,7 @@ public class JobTitle
      * We know all of this works with EmployeeTitles because that is the class of the field name that making the One To Many relationship!
      * This array contains the list of EmployeeTitles assigned to this Job Title
      */
-    private List<EmployeeTitles> empnames = new ArrayList<>();
+    private Set<EmployeeTitles> empnames = new HashSet<>();
 
     public JobTitle()
     {
@@ -71,12 +67,12 @@ public class JobTitle
         this.title = title;
     }
 
-    public List<EmployeeTitles> getEmpnames()
+    public Set<EmployeeTitles> getEmpnames()
     {
         return empnames;
     }
 
-    public void setEmpnames(List<EmployeeTitles> empnames)
+    public void setEmpnames(Set<EmployeeTitles> empnames)
     {
         this.empnames = empnames;
     }

@@ -24,27 +24,27 @@ public class JobTitleServiceImpl
     @Transactional
     @Override
     public JobTitle update(
-            long id,
-            JobTitle jt)
+        long id,
+        JobTitle jt)
     {
         if (jt.getTitle() == null)
         {
-            throw new EntityNotFoundException("No Tile found to update!");
+            throw new EntityNotFoundException("No Title found to update!");
         }
 
         if (jt.getEmpnames()
-                .size() > 0)
+            .size() > 0)
         {
             throw new EntityExistsException("Employees are not updated through Job Titles");
         }
 
         jtrepos.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Job Title id " + id + " not found!"));
+            .orElseThrow(() -> new EntityNotFoundException("Job Title id " + id + " not found!"));
 
         jtrepos.updateJobTitle("SYSTEM",
-                id,
-                jt.getTitle());
+            id,
+            jt.getTitle());
         return jtrepos.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Job Title id " + id + " not found!"));
+            .orElseThrow(() -> new EntityNotFoundException("Job Title id " + id + " not found!"));
     }
 }

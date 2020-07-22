@@ -8,24 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 /*
  * Table enforces a unique constraint of the combination of employeeid and jobtitleid.
  * These two together form the primary key.
  */
-@Table(name = "employeetitles",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"employeeid", "jobtitleid"})})
+@Table(name = "employeetitles")
 /*
  * When you have a compound primary key, you must implement Serializable for Hibernate
  * When you implement Serializable you must implement equals and hash code
  */
-public class EmployeeTitles
-        extends Auditable
-        implements Serializable
+public class EmployeeTitles extends Auditable implements Serializable
 {
     /*
      * 1/2 of the primary key (long) for employeetitles.
@@ -120,29 +115,36 @@ public class EmployeeTitles
      * as generating getters and setters. We pick equals() and hashCode() from that context menu
      * and generate them.
      */
-
     @Override
     public boolean equals(Object o)
     {
+        // if the one we are comparing an object to itself, just return true
         if (this == o)
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+
+        // make sure that we are comparing this object to one of the same class
+        // if not return false
+        if (!(o instanceof EmployeeTitles))
         {
             return false;
         }
+
+        // check to see if the ids are equal.
+        // if one of the objects happens to have a null for one of the fields
+        // set the id to 0
         EmployeeTitles that = (EmployeeTitles) o;
-        return getEmp().equals(that.getEmp()) &&
-                getJobname().equals(that.getJobname()) &&
-                getManager().equals(that.getManager());
+        return ((emp == null) ? 0 : emp.getEmployeeid()) == ((that.emp == null) ? 0 : that.emp.getEmployeeid()) &&
+                ((jobname == null) ? 0 : jobname.getJobtitleid()) == ((that.jobname == null) ? 0 : that.jobname.getJobtitleid());
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(getEmp(),
-                getJobname(),
-                getManager());
+//        return Objects.hash(getEmp(),
+//                            getJobname(),
+//                            manager);
+        return 34;
     }
 }

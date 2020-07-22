@@ -12,7 +12,7 @@ public class SampleempsApplication
     public static void main(String[] args)
     {
         SpringApplication.run(SampleempsApplication.class,
-            args);
+                              args);
     }
 
 }

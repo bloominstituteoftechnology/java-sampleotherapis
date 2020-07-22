@@ -12,25 +12,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/jobtitles")
 public class JobTitleController
 {
     @Autowired
-    private JobTitleService jtService;
+    JobTitleService jtService;
 
-    @PutMapping(value = "/jobtitle/{jobtitlesid}",
+    @PutMapping(value = "/jobtitle/{jobtitleid}",
             consumes = {"application/json"})
     public ResponseEntity<?> putUpdateJobTitle(
             @PathVariable
-                    long jobtitlesid,
+                    long jobtitleid,
+            @Valid
             @RequestBody
                     JobTitle newJT)
     {
-        newJT = jtService.update(jobtitlesid,
-                newJT);
+        newJT = jtService.update(jobtitleid,
+                                 newJT);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @PatchMapping(value = "/jobtitle/{jobtitlesid}",
             consumes = {"application/json"})
@@ -41,8 +45,7 @@ public class JobTitleController
                     JobTitle newJT)
     {
         newJT = jtService.update(jobtitlesid,
-                newJT);
+                                 newJT);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
-

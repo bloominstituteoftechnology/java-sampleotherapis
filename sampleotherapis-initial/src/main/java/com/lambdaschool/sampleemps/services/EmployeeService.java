@@ -9,7 +9,7 @@ public interface EmployeeService
 {
     List<Employee> findAllEmployees();
 
-    Employee findEmployeeById(long id);
+    Employee findEmployeeById(long employeeid);
 
     List<Employee> findEmployeeNameContaining(String subname);
 
@@ -17,20 +17,9 @@ public interface EmployeeService
 
     Employee save(Employee employee);
 
-    Employee update(
-        Employee employee,
-        long employeeid);
-
-    void delete(long employeeid);
-
     List<EmpNameCountJobs> getEmpNameCountJobs();
 
-    void deleteEmpJobTitle(
-        long employeeid,
-        long jobtitleid);
+    Employee update(Employee employee, long employeeid);
 
-    void addEmpJobTitle(
-        long employeeid,
-        long jobtitleid,
-        String manager);
+    void delete(long employeeid);
 }

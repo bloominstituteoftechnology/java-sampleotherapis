@@ -34,7 +34,7 @@ public class EmployeeController
     {
         List<Employee> myEmployees = employeeService.findAllEmployees();
         return new ResponseEntity<>(myEmployees,
-                HttpStatus.OK);
+                                    HttpStatus.OK);
     }
 
     @GetMapping(value = "/employee/{employeeid}")
@@ -43,8 +43,7 @@ public class EmployeeController
                     long employeeid)
     {
         Employee e = employeeService.findEmployeeById(employeeid);
-        return new ResponseEntity<>(e,
-                HttpStatus.OK);
+        return new ResponseEntity<>(e, HttpStatus.OK);
     }
 
     @GetMapping(value = "/employeename/{subname}")
@@ -54,7 +53,7 @@ public class EmployeeController
     {
         List<Employee> myEmployees = employeeService.findEmployeeNameContaining(subname);
         return new ResponseEntity<>(myEmployees,
-                HttpStatus.OK);
+                                    HttpStatus.OK);
     }
 
     @GetMapping(value = "/employeeemail/{subemail}")
@@ -64,7 +63,15 @@ public class EmployeeController
     {
         List<Employee> myEmployees = employeeService.findEmployeeEmailContaining(subemail);
         return new ResponseEntity<>(myEmployees,
-                HttpStatus.OK);
+                                    HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/job/counts")
+    public ResponseEntity<?> getEmpJobCounts()
+    {
+        List<EmpNameCountJobs> myEmployees = employeeService.getEmpNameCountJobs();
+        return new ResponseEntity<>(myEmployees,
+                                    HttpStatus.OK);
     }
 
     @PostMapping(value = "/employee",
@@ -80,27 +87,26 @@ public class EmployeeController
 
         // set the location header for the newly created resource
         HttpHeaders responseHeaders = new HttpHeaders();
-        URI newEmployeeURI = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{employeeid}")
-                .buildAndExpand(newEmployee.getEmployeeid())
-                .toUri();
-        responseHeaders.setLocation(newEmployeeURI);
-
+        URI newEmployeeURI = ServletUriComponentsBuilder.fromCurrentRequest() // get the URI for this request
+                .path("/{employeeid}") // add to it a path variable
+                .buildAndExpand(newEmployee.getEmployeeid()) // populate that path variable with the newly created restaurant id
+                .toUri(); // convert that work into a human readable URI
+        responseHeaders.setLocation(newEmployeeURI); // in the header, set the location location to that URI
         return new ResponseEntity<>(null,
-                responseHeaders,
-                HttpStatus.CREATED);
+                                    responseHeaders,
+                                    HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/employee/{employeeid}",
             consumes = {"application/json"})
     public ResponseEntity<?> updateFullEmployee(
-            @Valid
+            @Valid // verifies the give employee record is valid
             @RequestBody
-                    Employee updateEmployee,
+                    Employee updateEmployee, // the Jackson dependency converts from JSON to Java Objects
             @PathVariable
-                    long employeeid)
+                    long employeeid) // the primary key of the employee record to replace
     {
-        updateEmployee.setEmployeeid(employeeid);
+        updateEmployee.setEmployeeid(employeeid); // set the primary key to the one from the path variable
         employeeService.save(updateEmployee);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -115,7 +121,7 @@ public class EmployeeController
                     long employeeid)
     {
         employeeService.update(updateEmployee,
-                employeeid);
+                               employeeid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -125,43 +131,6 @@ public class EmployeeController
                     long employeeid)
     {
         employeeService.delete(employeeid);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/job/counts")
-    public ResponseEntity<?> getEmpJobCounts()
-    {
-        List<EmpNameCountJobs> myEmployees = employeeService.getEmpNameCountJobs();
-        return new ResponseEntity<>(myEmployees,
-                HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/employee/{employeeid}/jobtitle/{jobtitleid}")
-    public ResponseEntity<?> deleteEmployeeJobTitlesByid(
-            @PathVariable
-                    long employeeid,
-            @PathVariable
-                    long jobtitleid)
-    {
-        employeeService.deleteEmpJobTitle(employeeid,
-                jobtitleid);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/employee/{employeeid}/jobtitle/{jobtitleid}/manager/{manager}")
-    public ResponseEntity<?> addEmployeeJobTitlesByid(
-            @PathVariable
-                    long employeeid,
-            @PathVariable
-                    long jobtitleid,
-            @PathVariable
-                    String manager)
-    {
-        employeeService.addEmpJobTitle(employeeid,
-                jobtitleid,
-                manager);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
